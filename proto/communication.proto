@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package communication;
+
+service NodeService {
+    rpc SendMessage (MessageRequest) returns (MessageResponse);
+}
+
+enum Status {
+  STATUS_SUCCESS = 0;
+  STATUS_ERROR = 1;
+}
+
+message MessageRequest {
+    string message = 1;
+}
+
+message MessageResponse {
+    string message = 1;
+    Status status = 2;
+}

@@ -1,0 +1,45 @@
+services:
+
+  master:
+    container_name: master
+    build: 
+      context: .
+      dockerfile: master/Dockerfile
+    ports:
+      - "5000:5000"
+    restart: unless-stopped
+    depends_on: 
+      - secondary-1
+      - secondary-2
+    networks:
+      - app-network
+
+  secondary-1:
+    container_name: secondary-1
+    build: 
+      context: .
+      dockerfile: secondary/Dockerfile
+    ports:
+      - "5001:5000"
+    restart: unless-stopped
+    environment:
+      NODE_ID: "secondary-1"
+    networks:
+      - app-network
+
+  secondary-2:
+    container_name: secondary-2
+    build: 
+      context: .
+      dockerfile: secondary/Dockerfile
+    ports:
+      - "5002:5000"
+    restart: unless-stopped
+    environment:
+      NODE_ID: "secondary-2"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
