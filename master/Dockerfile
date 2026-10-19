@@ -17,4 +17,4 @@ COPY shared/ ./shared/
 EXPOSE 5000
 
 
-CMD ["python", "app.py"]
+CMD ["python", "routes.py"]

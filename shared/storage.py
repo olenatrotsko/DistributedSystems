@@ -6,12 +6,10 @@ class MessageStorage:
         self.messages = []
         self.lock = threading.Lock()
 
-    def append_message(self, message: str):
+    def append(self, message: str):
         with self.lock:
             self.messages.append(message)
 
-    def list_messages(self):
+    def list(self):
         with self.lock:
             return self.messages
-
-message_store = MessageStorage()

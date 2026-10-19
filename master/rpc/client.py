@@ -20,8 +20,7 @@ class GRPCClient:
         response = self.stub.SendMessage(
             communication_pb2.MessageRequest(
                 message=message,
-            ),
-            timeout=30,
+            )
         )
         return response
 
