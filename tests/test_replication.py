@@ -14,7 +14,6 @@ DELAY_2 = 6
 def timed(fn, *args):
     start = time.monotonic()
     result = fn(*args)
-    print(result)
     return time.monotonic() - start, result
 
 
@@ -34,24 +33,23 @@ def test_delayed_secondaries(cluster):
 
     transport.set_delay("secondary-1", DELAY_1)
 
-    elapsed, ok = timed(master.append_message, "m1")
-    print("PRINT", ok)
-    # assert ok
+    elapsed, success = timed(master.append_message, "m1")
+    assert success
     assert elapsed >= DELAY_1                       # blocked
     assert master.list_messages() == ["m1"]
 
     transport.set_delay("secondary-2", DELAY_2)
 
-    elapsed, ok = timed(master.append_message, "m2")
-    assert ok
+    elapsed, success = timed(master.append_message, "m2")
+    assert success
     assert DELAY_2 <= elapsed < DELAY_1 + DELAY_2   # blocked on the slowest, sent in parallel
     assert master.list_messages() == ["m1", "m2"]
 
     transport.remove_delay("secondary-1")
     transport.remove_delay("secondary-2")
 
-    elapsed, ok = timed(master.append_message, "m3")
-    assert ok
+    elapsed, success = timed(master.append_message, "m3")
+    assert success
     assert elapsed < 0.1                            # not blocked
 
     expected = ["m1", "m2", "m3"]
