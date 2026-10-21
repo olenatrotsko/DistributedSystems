@@ -19,8 +19,8 @@ class MasterNode:
             ]
 
             results = [future.result() for future in futures]
-        print(results)
-        if all(result for result in results):
+
+        if all(result.status for result in results):
             return True
 
         return False

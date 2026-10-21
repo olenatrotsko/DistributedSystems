@@ -1,5 +1,7 @@
 import logging
 
+from shared.ack import Ack
+
 logger = logging.getLogger("secondary.node")
 
 class SecondaryNode:
@@ -13,3 +15,4 @@ class SecondaryNode:
     def receive_message(self, message: str) -> None:
         logger.info(f"Node ({self._node_id}) recieved message: {message}")
         self._storage.append(message)
+        return Ack(True)

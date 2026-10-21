@@ -1,15 +1,9 @@
-from dataclasses import dataclass
 import logging
 import grpc
 from proto import communication_pb2
+from shared.ack import Ack
 
 logger = logging.getLogger("master.transport")
-
-@dataclass
-class Ack:
-    status: bool
-    message: str = ""
-
 
 class GrpcTransport:
     def __init__(self, grpc_manager):
